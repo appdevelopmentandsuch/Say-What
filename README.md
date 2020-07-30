@@ -1,7 +1,7 @@
 # Say-What
 Rapidly create JSON Serializable classes for Unity using sample JSON responses
 
-
+![say-what-demo](https://user-images.githubusercontent.com/22528729/88982483-00460800-d28e-11ea-9ad6-e218c1ada6e5.gif)
 
 # Quick Start
 1. Clone the repo 
