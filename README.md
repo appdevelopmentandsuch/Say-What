@@ -1,5 +1,7 @@
 # Say-What
-Rapidly create JSON Serializable classes for Unity
+Rapidly create JSON Serializable classes for Unity using sample JSON responses
+
+
 
 # Quick Start
 1. Clone the repo 
