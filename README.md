@@ -14,11 +14,11 @@ Rapidly create JSON Serializable classes for Unity using sample JSON
 
 ## Required Args
 
-- -f / --File: Provide path to the file you wish to convert
+- `-f / --File`: Provide path to the file you wish to convert
 
 ## Optional Args
 
-- -p / --Path: Provide output path of the file. Default: "./"
+- `-p / --Path`: Provide output path of the file. Default: "./"
 
 # Dependencies
 

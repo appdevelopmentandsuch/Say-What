@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import argparse
 
 def __unity_type_map(param_input_type, param_json_key, param_existing_classes):
