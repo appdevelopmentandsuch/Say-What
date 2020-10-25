@@ -1,9 +1,10 @@
 import json
 import os
 import sys
-
+import argparse
 
 def __unity_type_map(param_input_type, param_json_key, param_existing_classes):
+    param_json_key = param_json_key.title()
 
     input_type = param_input_type
 
@@ -19,7 +20,6 @@ def __unity_type_map(param_input_type, param_json_key, param_existing_classes):
     if type(input_type) is list:
         input_type = input_type[0]
         if type(input_type) is dict:
-            param_json_key = next(iter(input_type))
             __create_unity_class(input_type, param_json_key, param_existing_classes)
         unity_type = "{0}[]".format(
             __unity_type_map(input_type, param_json_key, param_existing_classes)
@@ -82,7 +82,7 @@ def __create_classes_file_content(param_json_data, param_file_name):
     class_attr = []
     for c in classes:
         content += "\n    [Serializable]\n"
-        content += "    public class {0}ObjectResponse\n".format(c.get("name"))
+        content += "    public class {0}ObjectResponse\n".format(c.get("name").title())
         content += "    {\n"
         for a in c.get("attributes"):
             class_attr.append(
@@ -106,7 +106,17 @@ def create_json_response_classes(
             param_path=param_output_file_path,
         )
 
+input_parser = argparse.ArgumentParser()
 
-json_file = sys.argv[1]
+input_parser.add_argument("-f", "--File", help="e.x. -f SomeFile.json", required=True)
+input_parser.add_argument("-p", "--Path", help="e.x. -p ~/SomeProject/", required=False, default="./")
+
+input_args = input_parser.parse_args()
+
+if input_args.File:
+    json_file = input_args.File
+if input_args.Path:
+    output_path = input_args.Path
+
 class_name = json_file.split(".json")[0]
-create_json_response_classes(json_file, class_name, "./")
+create_json_response_classes(json_file, class_name, output_path)
