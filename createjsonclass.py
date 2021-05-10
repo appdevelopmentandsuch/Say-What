@@ -2,31 +2,47 @@ import json
 import os
 import argparse
 
-def __unity_type_map(param_input_type, param_json_key, param_existing_classes):
+classes = []
+existing_classes = []
+
+def __name_exists(param_name): 
+    return param_name in existing_classes
+
+def __get_dict_class_name(param_class_name, param_parent_name=None):
+    name = param_class_name.title()
+    name = "{0}ObjectResponse".format(name)
+
+    while __name_exists(name):
+        if __name_exists(name) and param_parent_name:
+            name = "{0}{1}".format(param_parent_name, name)
+        else:
+            name = "Sub{0}".format(name)   
+
+    existing_classes.append(name) 
+    return name
+
+def __unity_type_map(param_input_type, param_json_key):
     param_json_key = param_json_key.title()
 
     input_type = param_input_type
 
-    unity_type = ""
-
-    unity_type_map = {
-        dict: "{0}ObjectResponse".format(param_json_key),
+    type_map = {
+        dict: __get_dict_class_name(param_json_key),
         int: "int",
         str: "string",
         float: "float",
         bool: "bool",
     }
-    if type(input_type) is list:
-        input_type = input_type[0]
-        if type(input_type) is dict:
-            __create_unity_class(input_type, param_json_key, param_existing_classes)
-        unity_type = "{0}[]".format(
-            __unity_type_map(input_type, param_json_key, param_existing_classes)
-        )
-    else:
-        unity_type = unity_type_map[type(input_type)]
 
-    return unity_type
+    if not isinstance(input_type, list):
+        return type_map[type(input_type)]
+
+    input_type = input_type[0]
+    if isinstance(input_type, dict):
+        __create_unity_class(input_type, __get_dict_class_name(param_json_key))
+    return "{0}[]".format(
+            __unity_type_map(input_type, param_json_key)
+        )
 
 
 def __create_classes_file(param_file_name, param_json_data, param_path):
@@ -34,47 +50,44 @@ def __create_classes_file(param_file_name, param_json_data, param_path):
     if not os.path.exists(os.path.dirname(file_name)):
         try:
             os.makedirs(os.path.dirname(file_name))
-        except:
-            print("error")
-    class_file = open(file_name, "w+")
-    class_file_content = __create_classes_file_content(param_json_data, param_file_name)
-    class_file.write(class_file_content)
-    class_file.close()
+        except Exception as e:
+            print(e.with_traceback())
+
+    with open(file_name, "w+") as class_file:
+        class_file_content = __create_classes_file_content(param_json_data, param_file_name)
+        class_file.write(class_file_content)
 
 
-def __create_unity_class(param_json_data, param_json_key, param_existing_classes):
-    response_class = {"name": "{0}".format(param_json_key), "attributes": []}
+def __create_unity_class(param_json_data, param_json_key):
+    response_class = {"name": "{0}".format(__get_dict_class_name(param_json_key)), "attributes": []}
     for key in param_json_data:
-        value = __unity_type_map(param_json_data[key], key, param_existing_classes)
-        if type(param_json_data[key]) is dict:
+        value = __unity_type_map(param_json_data[key], key)
+        if isinstance(param_json_data[key], dict):
             __create_unity_class(
                 param_json_data=param_json_data[key],
                 param_json_key=key,
-                param_existing_classes=param_existing_classes,
             )
         attribute = {"name": key, "value": value}
         response_class.get("attributes").append(attribute)
-    param_existing_classes.append(response_class)
+    classes.append(response_class)
 
 
 def __create_classes_file_content(param_json_data, param_file_name):
     content = ""
 
-    classes = []
-
     response_class = {"name": param_file_name, "attributes": []}
 
     for key in param_json_data:
-        value = __unity_type_map(param_json_data[key], key, classes)
-        if type(param_json_data[key]) is dict:
+        value = __unity_type_map(param_json_data[key], key)
+        if isinstance(param_json_data[key], dict):
             __create_unity_class(
                 param_json_data=param_json_data[key],
                 param_json_key=key,
-                param_existing_classes=classes,
             )
         attribute = {"name": key, "value": value}
         response_class.get("attributes").append(attribute)
     classes.append(response_class)
+    
     content += "using System;\n"
     content += "namespace {0}Namespace".format(response_class.get("name"))
     content += "{\n"
