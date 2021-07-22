@@ -1,6 +1,14 @@
 # Say-What
 
 [![CodeFactor](https://www.codefactor.io/repository/github/appdevelopmentandsuch/say-what/badge)](https://www.codefactor.io/repository/github/appdevelopmentandsuch/say-what)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/graphs/commit-activity)
+[![GitHub license](https://img.shields.io/github/license/appdevelopmentandsuch/Say-What.svg)](https://github.com/appdevelopmentandsuch/Say-What/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/appdevelopmentandsuch/Say-What.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/releases/)
+[![GitHub tag](https://img.shields.io/github/tag/appdevelopmentandsuch/Say-What.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/tags/)
+[![Github all releases](https://img.shields.io/github/downloads/appdevelopmentandsuch/Say-What/total.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/releases/)
+[![GitHub stars](https://img.shields.io/github/stars/appdevelopmentandsuch/Say-What.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/appdevelopmentandsuch/Say-What/stargazers/)
+[![GitHub issues](https://img.shields.io/github/issues/appdevelopmentandsuch/Say-What.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/appdevelopmentandsuch/Say-What.svg)](https://GitHub.com/appdevelopmentandsuch/Say-What/issues?q=is%3Aissue+is%3Aclosed)
 
 Rapidly create JSON Serializable classes for Unity using sample JSON
 
